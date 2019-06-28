@@ -4,6 +4,22 @@ import './index.css';
 import AsanaGallery from './AsanaGallery';
 import * as serviceWorker from './serviceWorker';
 
+// const frames = new Array(10000);
+
+// for (let i = 0; i < 10000; i++) {
+//   frames[i] = { height: 297, width: 200, img: "./carly.jpg" };
+// }
+
+// ReactDOM.render(
+//   <AsanaGallery
+//     frames={frames}
+//     width={1200}
+//     maxRowHeight={100}
+//     spacing={10}
+//   />,
+//   document.getElementById('gallery')
+// );
+
 ReactDOM.render(
   <AsanaGallery
     frames={[

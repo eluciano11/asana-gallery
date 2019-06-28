@@ -33,11 +33,16 @@ function adjustHeight(frame, maxHeight) {
 function adjustRowWidth(row, rowSize, containerWidth, spacing) {
   const ratio = containerWidth / rowSize;
 
-  return row.map((column, index) => ({
-    height: Math.round(column.height * ratio),
-    width: Math.round(column.width * ratio) - (index > 0 ? spacing : 0),
-    img: column.img
-  }));
+  return row.map((column, index) => {
+    const spaceToAdd =
+      row.length % 2 === 0 || (row.length > 1 && (index + 1) % 2 === 1) ? spacing : 0;
+
+    return ({
+      height: Math.round(column.height * ratio),
+      width: Math.round(column.width * ratio) - spaceToAdd,
+      img: column.img
+    });
+  });
 }
 
 /**
