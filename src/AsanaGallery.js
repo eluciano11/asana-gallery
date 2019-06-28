@@ -19,6 +19,27 @@ function adjustHeight(frame, maxHeight) {
 }
 
 /**
+ * Verify if the current frame will need to use spacing.
+ * Spacing will be added if one of the following conditions are meet:
+ * 1. The current row has more than 2 frames and the row length is a pair number or the current index is not a pair number.
+ * 2. The row has 2 frames and we're processing the first frame.
+ *
+ * @param {Array<Object>} row - List of frames in the current row.
+ * @param {number} index - Index that the loop is on.
+ * @param {number} spacing - Spacing that has been passed to the component.
+ * @returns {number} Spacing to be added.
+ */
+function getSpaceToUse(row, index, spacing) {
+  if (row.length > 2 && (row.length % 2 === 0 || index > 0)) {
+    return spacing;
+  } else if (row.length === 2 && index === 0) {
+    return spacing;
+  }
+
+  return 0;
+}
+
+/**
  * Scale the frames' content to fit the container.
  * In order for our row to fit the container width we need to determine the amount of
  * space that's available for our row in the container. Once know the amount of space
@@ -34,12 +55,11 @@ function adjustRowWidth(row, rowSize, containerWidth, spacing) {
   const ratio = containerWidth / rowSize;
 
   return row.map((column, index) => {
-    const spaceToAdd =
-      row.length % 2 === 0 || (row.length > 1 && (index + 1) % 2 === 1) ? spacing : 0;
+    const spaceToUse = getSpaceToUse(row, index, spacing);
 
     return ({
-      height: Math.round(column.height * ratio),
-      width: Math.round(column.width * ratio) - spaceToAdd,
+      height: Math.floor(column.height * ratio),
+      width: Math.floor(column.width * ratio) - spaceToUse,
       img: column.img
     });
   });
