@@ -4,7 +4,7 @@ import React from 'react';
 // Part I
 // ----------------------------------------------------------------------
 /**
- * Adjust to current frame to fit the height that's provided.
+ * Adjust to current frame to fit the height that's provided. The height can be the max height provided to the component or the height of the first element in the row.
  *
  * @param {Object} frame - Image dimension.
  * @param {number} frame.height - Height of the current image.
@@ -12,7 +12,7 @@ import React from 'react';
  * @param {number} maxHeight - Max height that the image can have. This value can be the max height provided to the component or the height of the first item in the row.
  * @returns {Object} Scaled dimentions based on the height that was passed..
  */
-function adjustToRowHeight(frame, maxHeight) {
+function adjustHeight(frame, maxHeight) {
   const ratio = frame.height / frame.width;
 
   return { height: maxHeight, width: Math.round(maxHeight / ratio) };
@@ -30,7 +30,7 @@ function adjustToRowHeight(frame, maxHeight) {
  * @param {number} containerWidth - Width that we need our row to adjust to.
  * @param {number} spacing - Spacing that will be added to each element of the array expect the first one.
  */
-function adjustRowSize(row, rowSize, containerWidth, spacing) {
+function adjustRowWidth(row, rowSize, containerWidth, spacing) {
   const ratio = containerWidth / rowSize;
 
   return row.map((column, index) => ({
@@ -70,13 +70,14 @@ function adjustRowSize(row, rowSize, containerWidth, spacing) {
   for(let index = 0; index < frames.length; index++) {
     const frame = frames[index];
     const maxHeight = row.length > 0 ? row[0].height : maxRowHeight;
-    const { height, width } = adjustToRowHeight(frame, maxHeight);
+    const { height, width } = adjustHeight(frame, maxHeight);
 
     row.push({ height, width, img: frame.img });
     rowSize += width;
 
     if (rowSize >= containerWidth) {
-      layout.push(adjustRowSize(row, rowSize, containerWidth, spacing));
+      // Add row to the layout after adjusting its width.
+      layout.push(adjustRowWidth(row, rowSize, containerWidth, spacing));
 
       // Reset row and the width accumulator.
       rowSize = 0;
@@ -84,6 +85,7 @@ function adjustRowSize(row, rowSize, containerWidth, spacing) {
     }
   }
 
+  // Add any missing row to the layout.
   if (row.length > 0) {
     layout.push(row);
   }
