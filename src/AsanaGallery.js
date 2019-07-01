@@ -57,11 +57,10 @@ function adjustRowWidth(row, rowSize, containerWidth, spacing) {
   return row.map((column, index) => {
     const spaceToUse = getSpaceToUse(row, index, spacing);
 
-    return ({
+    return (Object.assign({}, column, {
       height: Math.floor(column.height * ratio),
-      width: Math.floor(column.width * ratio) - spaceToUse,
-      img: column.img
-    });
+      width: Math.floor(column.width * ratio) - spaceToUse
+    }));
   });
 }
 
@@ -97,7 +96,10 @@ function adjustRowWidth(row, rowSize, containerWidth, spacing) {
     const maxHeight = row.length > 0 ? row[0].height : maxRowHeight;
     const { height, width } = adjustHeight(frame, maxHeight);
 
-    row.push({ height, width, img: frame.img });
+    row.push(Object.assign({}, frame, {
+      height,
+      width
+    }));
     rowSize += width;
 
     if (rowSize >= containerWidth) {
@@ -131,43 +133,45 @@ class AsanaGallery extends React.Component {
       this.props.spacing
     );
 
-    return <div
-      className="AsanaGallery"
-      style={{ width: this.props.width }}
-    >
-      <h1>Asana Gallery</h1>
-      {rows.map((row, i) => row.map((frame, j) => (
-        <div
-          key={`image${i}_${j}`}
-          className="asana-gallery__card"
-          style={{
-            width: frame.width,
-            marginLeft: j > 0 ? this.props.spacing : 0,
-          }}
-        >
-          <img
-            // src={frame.img}
-            className="asana-gallery__card__image"
+    return (
+      <div
+        className="AsanaGallery"
+        style={{ width: this.props.width }}
+      >
+        <h1>Asana Gallery</h1>
+        {rows.map((row, i) => row.map((frame, j) => (
+          <div
+            key={`image${i}_${j}`}
+            className="asana-gallery__card"
             style={{
               width: frame.width,
-              height: frame.height
+              marginLeft: j > 0 ? this.props.spacing : 0,
             }}
-            alt=""
-          />
-          <footer className="asana-gallery__card__footer">
-            <img className="asana-gallery__card__footer__image" src="" alt="" />
-            <div className="asana-gallery__card__footer__information">
-              <p className="asana-gallery__card__footer__title ellipsis">
-                A most interesting picture
-              </p>
-              <p className="asana-gallery__card__footer__subtitle ellipsis">
-                Other info you might care about
-              </p>
-            </div>
-          </footer>
-        </div>
-      )))}
-    </div>;
+          >
+            <img
+              src={frame.img}
+              className="asana-gallery__card__image"
+              style={{
+                width: frame.width,
+                height: frame.height
+              }}
+              alt=""
+            />
+            <footer className="asana-gallery__card__footer">
+              <img className="asana-gallery__card__footer__image" src={frame.avatar} alt="" />
+              <div className="asana-gallery__card__footer__information">
+                <p className="asana-gallery__card__footer__title ellipsis">
+                  {frame.title || "A most interesting picture"}
+                </p>
+                <p className="asana-gallery__card__footer__subtitle ellipsis">
+                  {frame.subtitle || "Other info you might care about"}
+                </p>
+              </div>
+            </footer>
+          </div>
+        )))}
+      </div>
+    );
   }
 }
 
