@@ -169,12 +169,12 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <AsanaGallery
     frames={[
-      { height: 360, width: 1000, img: "", title: "", subtitle: "", avatar: "" },
-      { height: 600, width: 400, img: "", title: "", subtitle: "", avatar: "" },
-      { height: 400, width: 600, img: "", title: "", subtitle: "", avatar: "" },
-      { height: 400, width: 600, img: "", title: "", subtitle: "", avatar: "" },
-      { height: 400, width: 300, img: "", title: "", subtitle: "", avatar: "" },
-      { height: 400, width: 300, img: "", title: "", subtitle: "", avatar: "" }
+      { height: 360, width: 1000 },
+      { height: 600, width: 400 },
+      { height: 400, width: 600 },
+      { height: 400, width: 600 },
+      { height: 400, width: 300 },
+      { height: 400, width: 300 }
     ]}
     width={800}
     maxRowHeight={360}

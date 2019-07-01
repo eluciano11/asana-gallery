@@ -158,7 +158,7 @@ class AsanaGallery extends React.Component {
               alt=""
             />
             <footer className="asana-gallery__card__footer">
-              <img className="asana-gallery__card__footer__image" src={frame.avatar} alt="" />
+              <img className="asana-gallery__card__footer__image" src={frame.avatar || ""} alt="" />
               <div className="asana-gallery__card__footer__information">
                 <p className="asana-gallery__card__footer__title ellipsis">
                   {frame.title || "A most interesting picture"}
